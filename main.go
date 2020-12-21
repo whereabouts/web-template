@@ -8,6 +8,9 @@ import (
 )
 
 func main() {
+	// Quickly create an initial server and start it:
+	// server.DefaultServer().Router(routes.Routes).Run()
+	// if you need to use the custom configuration, call server.NewServer()
 	if err := server.NewServer(config.GetConfig()).Router(routes.Routes).Run(); err != nil {
 		logger.Fatalf("server run with http_error: %v", err)
 	}

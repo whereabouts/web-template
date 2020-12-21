@@ -6,7 +6,7 @@ import (
 )
 
 type SayHelloReq struct {
-	Name string `json:"name,default=tb" form:"name,default=tb"`
+	Name string `json:"name,default=korbin" form:"name,default=korbin"`
 	Age  int    `json:"age" form:"age"`
 }
 
@@ -17,6 +17,7 @@ type SayHelloResp struct {
 
 type FileHelloReq struct {
 	File *multipart.FileHeader `json:"file" form:"file"`
+	Name string                `json:"name,default=hezebin" form:"name,default=hezebin"`
 }
 
 type FileHelloResp struct {

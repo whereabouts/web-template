@@ -22,11 +22,6 @@ func (s *Server) Run() error {
 	return s.ListenAndServe()
 }
 
-func (s *Server) Router(r Router) *Server {
-	SetRouter(s, r)
-	return s
-}
-
 func (s *Server) SetEngine(engine *gin.Engine) {
 	s.Handler = engine
 }

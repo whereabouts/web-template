@@ -8,7 +8,10 @@ import (
 	//"mime/multipart"
 )
 
-// 普通请求：请求参数自动映射绑定到req；如果返回值为nil则将resp结构体以json格式映射到响应体，否则以json响应 *http_error.HttpError 内容
+// normal request：
+// request parameters are automatically mapped and bound to req,
+// If the return value is nil, the resp structure is mapped to the response body in JSON format,
+// Otherwise, respond with JSON *http_error.HttpError content
 func SayHello(req *proto.SayHelloReq, resp *proto.SayHelloResp) *http_error.HttpError {
 	fmt.Println("say hello")
 	resp.Code = http.StatusOK
@@ -16,18 +19,23 @@ func SayHello(req *proto.SayHelloReq, resp *proto.SayHelloResp) *http_error.Http
 	return nil
 }
 
-// 上传单个文件：可直接封装到req结构体中实现解析，类型为 *multipart.FileHeader
+// Upload a single file:
+// it can be directly encapsulated into the req structure for parsing *multipart.FileHeader
 func FileHello(req *proto.FileHelloReq, resp *proto.FileHelloResp) *http_error.HttpError {
 	if file := req.File; file == nil {
 		return http_error.Error(http.StatusBadRequest, "fail to find any file")
 	}
 	resp.Code = http.StatusOK
+	fmt.Println(req.Name)
 	resp.Message = fmt.Sprintf("success to upload file : %s", req.File.Filename)
 	return nil
 }
 
-// 多文件上传：无法通过映射解析，需要让req继承 middleware.Context 结构体，使其具有获取 gin.context 的能力，通过gin原生操作获取多文件
+// Multiple file upload:
+// cannot be resolved by mapping, req needs to be inherited handler.Context Structure,
+// so that it has access *gin.context The ability to obtain multiple files through the native operation of gin
 func FilesHello(req *proto.FilesHelloReq, resp *proto.FilesHelloResp) *http_error.HttpError {
+	fmt.Println(req.GetContext().Request.URL)
 	form, err := req.GetContext().MultipartForm()
 	if err != nil {
 		return http_error.ErrToHttpError(err, http.StatusBadRequest)
@@ -38,6 +46,7 @@ func FilesHello(req *proto.FilesHelloReq, resp *proto.FilesHelloResp) *http_erro
 		message = fmt.Sprintf("%s[%s]", message, file.Filename)
 	}
 	resp.Code = http.StatusOK
+	fmt.Println(req.Name)
 	resp.Message = fmt.Sprintf("success to upload these files : %+v", message)
 	return nil
 }

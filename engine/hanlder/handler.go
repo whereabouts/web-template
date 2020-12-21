@@ -2,6 +2,7 @@ package hanlder
 
 import (
 	"errors"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/whereabouts/web-template/engine/http_error"
 	"net/http"
@@ -41,7 +42,7 @@ func CreateHandlerFunc(method interface{}) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		req := reflect.New(reqT)
 		if err := c.ShouldBind(req.Interface()); err != nil {
-			c.JSON(http.StatusOK, http_error.Error(http_error.CodeParam, err.Error()))
+			c.JSON(http.StatusOK, http_error.Error(http_error.CodeParam, fmt.Sprintf("req param err: %s", err.Error())))
 			return
 		}
 		setRequest(req, c)
