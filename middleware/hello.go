@@ -5,10 +5,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func HelloMiddlewarePre(context *gin.Context) {
+func HelloPreMiddleware(context *gin.Context) {
 	fmt.Println("hello pre")
 }
 
-func HelloMiddlewareAfter(context *gin.Context) {
+func HelloAfterMiddleware(context *gin.Context) {
 	fmt.Println("hello after")
 }

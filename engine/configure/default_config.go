@@ -2,17 +2,28 @@ package configure
 
 import (
 	"encoding/json"
+	"github.com/whereabouts/chassis/logger"
 	"io/ioutil"
 	"reflect"
 )
 
 const (
-	defaultPort       = 8080
-	defaultEnv        = "prod"
-	fieldNamePort     = "Port"
-	fieldNameEnv      = "Env"
-	defaultConfigPath = "./config/application.json"
+	fieldNamePort             = "Port"
+	fieldNameEnv              = "Env"
+	defaultConfigPath         = "./config/application.json"
+	defaultInternalConfigPath = "./engine/configure/application.json"
 )
+
+func init() {
+	data, err := ioutil.ReadFile(defaultInternalConfigPath)
+	if err != nil {
+		logger.Fatalf("read internal default config file err: %+v", err)
+	}
+	err = json.Unmarshal(data, &dConfig)
+	if err != nil {
+		logger.Fatalf("unmarshal internal default config err: %+v", err)
+	}
+}
 
 type IConfig interface {
 	Set()
@@ -23,7 +34,7 @@ type DefaultConfig struct {
 	Env  string `json:"env"`
 }
 
-var dConfig = DefaultConfig{defaultPort, defaultEnv}
+var dConfig = DefaultConfig{}
 
 func Load(conf IConfig) (*DefaultConfig, error) {
 	// first, find the path from the command line parameter or the default directory
