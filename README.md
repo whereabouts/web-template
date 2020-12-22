@@ -14,12 +14,12 @@ You just need to select the following code in the template:
 ```
 .
 │ 
-│ main.go 
-└─routes
+├─main.go 
+├─routes
 │   └─routes.go
 ├─handlers  
 │   └─hello.go
-└─proto
+├─proto
 │   └─hello.go
 └─config
     ├─application.json
