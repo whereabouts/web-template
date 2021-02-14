@@ -10,8 +10,8 @@ import (
 const (
 	fieldNamePort             = "Port"
 	fieldNameEnv              = "Env"
-	defaultConfigPath         = "./config/application.json"
-	defaultInternalConfigPath = "./engine/configure/application.json"
+	defaultConfigPath         = "config/application.json"
+	defaultInternalConfigPath = "engine/configure/application.json"
 )
 
 func init() {
