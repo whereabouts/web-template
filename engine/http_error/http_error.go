@@ -35,7 +35,7 @@ func Error(code int, msg string) *HttpError {
 	}
 }
 
-func ErrToHttpError(err error, code int) *HttpError {
+func Err2HttpError(err error, code int) *HttpError {
 	if err == nil {
 		return nil
 	}

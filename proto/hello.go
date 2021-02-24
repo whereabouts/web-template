@@ -13,6 +13,7 @@ type SayHelloReq struct {
 type SayHelloResp struct {
 	Code    int    `json:"code" form:"code"`
 	Message string `json:"message" form:"message"`
+	hanlder.Context
 }
 
 type FileHelloReq struct {

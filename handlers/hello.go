@@ -16,7 +16,8 @@ func SayHello(req *proto.SayHelloReq, resp *proto.SayHelloResp) *http_error.Http
 	fmt.Println("say hello")
 	resp.Code = http.StatusOK
 	resp.Message = fmt.Sprintf("hello, %s! your age is %d", req.Name, req.Age)
-	return nil
+	resp.GetContext().Header("a", "b")
+	return http_error.Error(1, "2")
 }
 
 // Upload a single file:
@@ -38,7 +39,7 @@ func FilesHello(req *proto.FilesHelloReq, resp *proto.FilesHelloResp) *http_erro
 	fmt.Println(req.GetContext().Request.URL)
 	form, err := req.GetContext().MultipartForm()
 	if err != nil {
-		return http_error.ErrToHttpError(err, http.StatusBadRequest)
+		return http_error.Err2HttpError(err, http.StatusBadRequest)
 	}
 	files := form.File["files"]
 	var message string

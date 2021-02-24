@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/whereabouts/chassis/logger"
 	"github.com/whereabouts/web-template/engine/http_error"
 	"net/http"
 	"reflect"
@@ -42,11 +43,13 @@ func CreateHandlerFunc(method interface{}) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		req := reflect.New(reqT)
 		if err := c.ShouldBind(req.Interface()); err != nil {
+			logger.Errorf("req param err: %s", err.Error())
 			c.JSON(http.StatusOK, http_error.Error(http_error.CodeParam, fmt.Sprintf("req param err: %s", err.Error())))
 			return
 		}
-		setRequest(req, c)
+		setContext(req, c)
 		resp := reflect.New(respT)
+		setContext(resp, c)
 		results := mV.Call([]reflect.Value{req, resp})
 		respErr, _ := results[0].Interface().(*http_error.HttpError)
 		// response contains http_error
@@ -62,9 +65,9 @@ func CreateHandlerFunc(method interface{}) gin.HandlerFunc {
 	}
 }
 
-func setRequest(reqV reflect.Value, c *gin.Context) {
+func setContext(v reflect.Value, c *gin.Context) {
 	contextV := reflect.ValueOf(Context{c})
-	contextChild := reqV.Elem().FieldByName(contextV.Type().Name())
+	contextChild := v.Elem().FieldByName(contextV.Type().Name())
 	if ok := contextChild.IsValid(); ok {
 		contextChild.Set(contextV)
 	}
