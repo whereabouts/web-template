@@ -1,4 +1,4 @@
-package init
+package Initiator
 
 func Init() {
 	// do some initialization here
