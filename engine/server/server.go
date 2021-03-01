@@ -18,7 +18,7 @@ type Server struct {
 }
 
 func (s *Server) Run() error {
-	logger.Infof("server is starting with port:%d, env:%s", s.config.Port, s.config.Env)
+	logger.Infof("server is running in port:%d, env:%s", s.config.Port, s.config.Env)
 	return s.ListenAndServe()
 }
 
