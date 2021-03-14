@@ -13,9 +13,9 @@ const (
 )
 
 type HttpError struct {
-	HttpStatusCode int    `json:"-"`
-	Code           int    `json:"err_code"`
-	Message        string `json:"err_message"`
+	HttpStatusCode int         `json:"-"`
+	Code           interface{} `json:"err_code"`
+	Message        string      `json:"err_message"`
 }
 
 func (err *HttpError) Error() string {
@@ -28,14 +28,14 @@ func (err *HttpError) WithHttpStatusCode(httpStatusCode int) *HttpError {
 	return err
 }
 
-func Error(code int, msg string) *HttpError {
+func Error(code interface{}, msg string) *HttpError {
 	return &HttpError{
 		Code:    code,
 		Message: msg,
 	}
 }
 
-func Err2HttpError(err error, code int) *HttpError {
+func Err2HttpError(err error, code interface{}) *HttpError {
 	if err == nil {
 		return nil
 	}
