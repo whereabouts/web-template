@@ -4,7 +4,7 @@ type JSON map[string]interface{}
 
 func DefaultJSON(code interface{}, message string) interface{} {
 	return struct {
-		Code    interface{} `json:"err_code"`
-		Message string      `json:"err_message"`
+		Code    interface{} `json:"code"`
+		Message string      `json:"message"`
 	}{code, message}
 }
