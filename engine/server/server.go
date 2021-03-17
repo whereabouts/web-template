@@ -22,6 +22,10 @@ func (s *Server) Run() error {
 	return s.ListenAndServe()
 }
 
+func (s *Server) Shutdown() error {
+	return s.Shutdown()
+}
+
 func (s *Server) SetEngine(engine *gin.Engine) {
 	s.Handler = engine
 }
