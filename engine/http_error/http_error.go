@@ -3,19 +3,24 @@ package http_error
 import "encoding/json"
 
 const (
-	CodeBasic    int = 1000
-	CodeResource int = 2000
-	CodeAuth     int = 3000
-	CodeNull     int = 4000
-	CodeSystem   int = 5000
-	CodeParam    int = 6000
-	CodeConvert  int = 7000
+	CodeBoolSuccess bool = true
+	CodeBoolOk      bool = true
+	CodeBoolFail    bool = false
+	//CodeBasic    int = 1000
+	//CodeResource int = 2000
+	//CodeAuth     int = 3000
+	//CodeNull     int = 4000
+	//CodeSystem   int = 5000
+	//CodeParam    int = 6000
+	//CodeConvert  int = 7000
 )
 
 type HttpError struct {
 	HttpStatusCode int         `json:"-"`
-	Code           interface{} `json:"err_code"`
-	Message        string      `json:"err_message"`
+	ErrCode        interface{} `json:"err_code"`
+	ErrMessage     string      `json:"err_message"`
+	Code           interface{} `json:"code"`
+	Message        string      `json:"message"`
 }
 
 func (err *HttpError) Error() string {
@@ -30,8 +35,10 @@ func (err *HttpError) WithHttpStatusCode(httpStatusCode int) *HttpError {
 
 func Error(code interface{}, msg string) *HttpError {
 	return &HttpError{
-		Code:    code,
-		Message: msg,
+		Code:       code,
+		Message:    msg,
+		ErrCode:    code,
+		ErrMessage: msg,
 	}
 }
 
