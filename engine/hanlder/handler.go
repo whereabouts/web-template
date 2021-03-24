@@ -44,7 +44,7 @@ func CreateHandlerFunc(method interface{}) gin.HandlerFunc {
 		req := reflect.New(reqT)
 		if err := c.ShouldBind(req.Interface()); err != nil {
 			logger.Errorf("req param err: %s", err.Error())
-			c.JSON(http.StatusOK, http_error.Error(http_error.CodeParam, fmt.Sprintf("req param err: %s", err.Error())))
+			c.JSON(http.StatusOK, http_error.Error(http_error.CodeBoolFail, fmt.Sprintf("req param err: %s", err.Error())))
 			return
 		}
 		setContext(req, c)
